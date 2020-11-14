@@ -1,0 +1,37 @@
+{{template "base" .}}
+
+{{define "title"}}Create a new Event{{end}}
+
+{{define "main"}}
+<form action='/event/create' method='POST'>
+    {{with .Form}}
+        <div>
+            <label>Title:</label>
+            {{with .Errors.Get "title"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='text' name='title' value='{{.Get "title"}}'>
+        </div>
+        <div>
+            <label>Description:</label>
+            {{with .Errors.Get "desc"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <textarea name='desc'>{{.Get "desc"}}</textarea>
+        </div>
+        <div>
+            <label>Delete in:</label>
+            {{with .Errors.Get "time"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            {{$exp := or (.Get "time") "365"}}
+            <input type='radio' name='time' value='365' {{if (eq $exp "365")}}checked{{end}}> One Year
+            <input type='radio' name='time' value='7' {{if (eq $exp "7")}}checked{{end}}> One Week
+            <input type='radio' name='time' value='1'{{if (eq $exp "1")}}checked{{end}}> One Day
+        </div>
+        <div>
+            <input type='submit' value='Publish event'>
+        </div>
+    {{end}}
+</form>
+{{end}}

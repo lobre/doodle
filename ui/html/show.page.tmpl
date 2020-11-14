@@ -1,0 +1,18 @@
+{{template "base" .}}
+
+{{define "title"}}Event #{{.Event.ID}}{{end}}
+
+{{define "main"}}
+    {{with .Event}}
+    <div class='snippet'>
+        <div class='metadata'>
+            <strong>{{.Title}}</strong>
+            <span>#{{.ID}}</span>
+        </div>
+        <pre><code>{{.Desc}}</code></pre>
+        <div class='metadata'>
+            <time>Date: {{humanDate .Time}}</time>
+        </div>
+    </div>
+    {{end}}
+{{end}}
