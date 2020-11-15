@@ -1,12 +1,15 @@
 package main
 
 import (
-	"path/filepath"
-	"text/template"
+	"html/template"
 	"time"
 
+	"github.com/lobre/doodle/pkg/embeds/htmldir"
 	"github.com/lobre/doodle/pkg/forms"
 	"github.com/lobre/doodle/pkg/models"
+
+	"github.com/shurcooL/httpfs/html/vfstemplate"
+	"github.com/shurcooL/httpfs/path/vfspath"
 )
 
 type templateData struct {
@@ -31,38 +34,37 @@ var functions = template.FuncMap{
 	"humanDate": humanDate,
 }
 
-// newTemplateCache will load all template files from disk into an in-memory
-// map when the application starts. This speeds up the response time as we don't
-// need to do it for all requests.
-func newTemplateCache(dir string) (map[string]*template.Template, error) {
+// newTemplateCache will load all template files, either from disk
+// or from the embedded filesystem, and store them in an in-memory
+// map for easy retrieval.
+func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob(filepath.Join(dir, "*.page.tmpl"))
+	pages, err := vfspath.Glob(htmldir.FS, "*.page.tmpl")
 	if err != nil {
 		return nil, err
 	}
 
 	for _, page := range pages {
-		// Extract the file name (like 'home.page.tmpl').
-		name := filepath.Base(page)
+		// inject our custom functions
+		ts := template.New(page).Funcs(functions)
 
-		// Inject our custom functions when creating the template set.
-		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
+		ts, err = vfstemplate.ParseFiles(htmldir.FS, ts, page)
 		if err != nil {
 			return nil, err
 		}
 
-		ts, err = ts.ParseGlob(filepath.Join(dir, "*.layout.tmpl"))
+		ts, err = vfstemplate.ParseGlob(htmldir.FS, ts, "*.layout.tmpl")
 		if err != nil {
 			return nil, err
 		}
 
-		ts, err = ts.ParseGlob(filepath.Join(dir, "*.partial.tmpl"))
+		ts, err = vfstemplate.ParseGlob(htmldir.FS, ts, "*.partial.tmpl")
 		if err != nil {
 			return nil, err
 		}
 
-		cache[name] = ts
+		cache[page] = ts
 	}
 
 	return cache, nil

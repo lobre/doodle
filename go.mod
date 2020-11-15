@@ -8,5 +8,7 @@ require (
 	github.com/golangcollege/sessions v1.2.0
 	github.com/justinas/alice v1.2.0
 	github.com/justinas/nosurf v1.1.1
-	golang.org/x/crypto v0.0.0-20200317142112-1b76d66859c6
+	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	golang.org/x/tools v0.0.0-20201114224030-61ea331ec02b // indirect
 )

@@ -4,10 +4,10 @@ import (
 	"crypto/tls"
 	"database/sql"
 	"flag"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"text/template"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -64,7 +64,7 @@ func run(infoLog, errorLog *log.Logger) error {
 	}
 	defer db.Close()
 
-	templateCache, err := newTemplateCache("./ui/html/")
+	templateCache, err := newTemplateCache()
 	if err != nil {
 		return err
 	}

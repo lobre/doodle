@@ -5,6 +5,7 @@ import (
 
 	"github.com/bmizerany/pat"
 	"github.com/justinas/alice"
+	"github.com/lobre/doodle/pkg/embeds/staticdir"
 )
 
 func (app *application) routes() http.Handler {
@@ -19,7 +20,7 @@ func (app *application) routes() http.Handler {
 	mux.Get("/ping", http.HandlerFunc(ping))
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
 
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	fileServer := http.FileServer(staticdir.FS)
 	mux.Get("/static/", http.StripPrefix("/static", fileServer))
 
 	// Events
