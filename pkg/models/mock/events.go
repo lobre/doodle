@@ -22,12 +22,12 @@ func (m *EventStore) Insert(title, desc, time string) (int, error) {
 func (m *EventStore) Get(id int) (*models.Event, error) {
 	switch id {
 	case 1:
-		return mockSnippet, nil
+		return mockEvent, nil
 	default:
 		return nil, models.ErrNoRecord
 	}
 }
 
-func (m *SnippetStore) Upcoming() ([]*models.Event, error) {
+func (m *EventStore) Upcoming() ([]*models.Event, error) {
 	return []*models.Event{mockEvent}, nil
 }
