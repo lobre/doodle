@@ -12,15 +12,32 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golangcollege/sessions"
+	"github.com/lobre/doodle/pkg/models"
 	"github.com/lobre/doodle/pkg/models/mysql"
 )
 
+type contextKey string
+
+const contextKeyIsAuthenticated = contextKey("isAuthenticated")
+
 type application struct {
-	errorLog      *log.Logger
-	infoLog       *log.Logger
-	session       *sessions.Session
-	events        *mysql.EventModel
-	users         *mysql.UserModel
+	errorLog *log.Logger
+	infoLog  *log.Logger
+
+	isHTTPS bool
+	session *sessions.Session
+
+	eventStore interface {
+		Insert(string, string, string) (int, error)
+		Get(int) (*models.Event, error)
+		Upcoming() ([]*models.Event, error)
+	}
+	userStore interface {
+		Insert(string, string, string) error
+		Authenticate(string, string) (int, error)
+		Get(int) (*models.User, error)
+	}
+
 	templateCache map[string]*template.Template
 }
 
@@ -54,16 +71,13 @@ func run(infoLog, errorLog *log.Logger) error {
 
 	session := sessions.New([]byte(*secret))
 	session.Lifetime = 12 * time.Hour
-	if *https {
-		session.Secure = true
-	}
 
 	app := &application{
 		errorLog:      errorLog,
 		infoLog:       infoLog,
 		session:       session,
-		events:        &mysql.EventModel{DB: db},
-		users:         &mysql.UserModel{DB: db},
+		eventStore:    &mysql.EventStore{DB: db},
+		userStore:     &mysql.UserStore{DB: db},
 		templateCache: templateCache,
 	}
 
@@ -77,6 +91,9 @@ func run(infoLog, errorLog *log.Logger) error {
 	}
 
 	if *https {
+		app.isHTTPS = true
+		app.session.Secure = true
+
 		srv.TLSConfig = &tls.Config{
 			PreferServerCipherSuites: true,
 			CurvePreferences:         []tls.CurveID{tls.X25519, tls.CurveP256},

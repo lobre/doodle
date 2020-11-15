@@ -7,11 +7,11 @@ import (
 	"github.com/lobre/doodle/pkg/models"
 )
 
-type EventModel struct {
+type EventStore struct {
 	DB *sql.DB
 }
 
-func (m *EventModel) Insert(title, desc, time string) (int, error) {
+func (m *EventStore) Insert(title, desc, time string) (int, error) {
 	stmt := `INSERT INTO events (title, description, time)
 	VALUES (?, ?, DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
 
@@ -28,7 +28,7 @@ func (m *EventModel) Insert(title, desc, time string) (int, error) {
 	return int(id), nil
 }
 
-func (m *EventModel) Get(id int) (*models.Event, error) {
+func (m *EventStore) Get(id int) (*models.Event, error) {
 	stmt := `SELECT id, title, description, time FROM events
 	WHERE time > UTC_TIMESTAMP() AND id = ?`
 
@@ -48,7 +48,7 @@ func (m *EventModel) Get(id int) (*models.Event, error) {
 	return evt, nil
 }
 
-func (m *EventModel) Upcoming() ([]*models.Event, error) {
+func (m *EventStore) Upcoming() ([]*models.Event, error) {
 	stmt := `SELECT id, title, description, time FROM events
 	WHERE time > UTC_TIMESTAMP() ORDER BY time DESC LIMIT 10`
 

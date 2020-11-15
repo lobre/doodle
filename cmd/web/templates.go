@@ -10,11 +10,13 @@ import (
 )
 
 type templateData struct {
-	CurrentYear int
-	Flash       string
-	Form        *forms.Form
-	Event       *models.Event
-	Events      []*models.Event
+	CSRFToken       string
+	CurrentYear     int
+	Flash           string
+	Form            *forms.Form
+	IsAuthenticated bool
+	Event           *models.Event
+	Events          []*models.Event
 }
 
 // humanDate returns a nicely formatted string representation
