@@ -2,16 +2,62 @@
 <head>
 <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="font-mono bg-gray-200">
-<header class="border-t-8 border-gray-700 pt-8">
-<div class="container mx-auto flex justify-center">
-  <div class="text-3xl text-gray-700 font-black flex items-center">
-    <svg class="h-12 w-12 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-      <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
-    </svg>
-    <a href="/">Doodle</a>
-  </div>
-</div>
-</header>
+<body class="font-mono bg-gray-200 flex flex-col h-screen justify-between">
+  <header class="border-t-8 border-gray-700 py-8">
+    <div class="container mx-auto flex justify-center">
+      <div class="text-3xl text-gray-700 font-black flex items-center">
+        <svg class="h-12 w-12 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+        </svg>
+        <a href="/">Doodle</a>
+      </div>
+    </div>
+  </header>
+  <nav class="bg-gray-100 border-t border-b border-gray-300">
+    <div class="container mx-auto h-14 flex justify-between items-center">
+      <div>
+        <a href="/" class="px-2 font-bold">Home</a>
+      </div>
+      <div>
+        <a href="/" class="text-green-500 hover:underline px-2">Signup</a>
+        <a href="/" class="text-green-500 hover:underline px-2">Login</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto mb-auto p-2">
+    <h1 class="text-xl font-bold text-gray-700 mb-4 mt-8">A simple paragraph</h1>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+
+    <h1 class="text-xl font-bold text-gray-700 mb-4 mt-8">Let’s see a table design</h1>
+    <table class="bg-white border border-gray-300 w-full text-base text-left">
+      <tbody>
+        <tr class="border-b border-gray-300">
+          <th class="text-gray-700 px-4 py-2">Title</th>
+          <th class="text-gray-700 px-4 py-2">Time</th>
+          <th class="text-gray-700 px-4 py-2">ID</th>
+        </tr>
+        <tr class="border-b border-gray-300 bg-gray-100">
+          <td class="px-4 py-2"><a href="/event/3" class="text-green-500 hover:underline">Concert of classical music</a></td>
+          <td class="px-4 py-2">25 Feb 2021 at 17:33</td>
+          <td class="px-4 py-2 text-gray-600">#3</td>
+        </tr>
+        <tr class="border-b border-gray-300">
+          <td class="px-4 py-2"><a href="/event/2" class="text-green-500 hover:underline">Jam session</a></td>
+          <td class="px-4 py-2">15 Feb 2021 at 17:33</td>
+          <td class="px-4 py-2 text-gray-600">#2</td>
+        </tr>
+        <tr class="border-b border-gray-300 bg-gray-100">
+          <td class="px-4 py-2"><a href="/event/1" class="text-green-500 hover:underline">Festival music</a></td>
+          <td class="px-4 py-2">05 Feb 2021 at 17:33</td>
+          <td class="px-4 py-2 text-gray-600">#1</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+  <footer class="bg-gray-100 border-t border-b border-gray-300 mt-4">
+    <div class="container mx-auto h-14 flex justify-center items-center">
+      <span>Powered by <a href="https://golang.org/" class="text-green-500 hover:underline">Go</a> in 2021</span>
+    </div>
+  </footer>
 </body>
 </html>
